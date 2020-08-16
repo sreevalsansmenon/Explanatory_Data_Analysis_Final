@@ -1,0 +1,7 @@
+library(ggplot2)
+NEI <- readRDS("summarySCC_PM25.rds")
+emission_baltimore <- subset(NEI,NEI$fips=="24510")
+emission_baltimore_type <- aggregate(Emissions ~ year + type, emission_baltimore, sum)
+png("Plot3.png", res=150, width = 1400, height = 800)
+ggplot(data = emission_baltimore_type,aes(x=year,y=Emissions,col=type))+geom_line()+labs(xlab = "Year",ylab="Total Emission",title="Total emissions from PM2.5 in the  Baltimore City, Maryland based on type from 1999 to 2008")+theme_bw()+theme(plot.title = element_text(hjust = 0.5))
+dev.off()

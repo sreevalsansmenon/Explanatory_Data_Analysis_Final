@@ -1,0 +1,7 @@
+NEI <- readRDS("summarySCC_PM25.rds")
+SCC <- readRDS("Source_Classification_Code.rds")
+emission_vehicles <- subset(NEI,NEI$fips %in% c("24510","06037") & NEI$type == "ON-ROAD")
+emission_vehicles_city <- aggregate(Emissions ~ year + fips, emission_vehicles, sum)
+png("Plot6.png", res=150, width = 1400, height = 800)
+ggplot(data = emission_vehicles_city,aes(x=year,y=Emissions,col=fips))+geom_line()+labs(xlab = "Year",ylab="Total Vehicle Emission",title="Total emissions from vehicles from 1999 to 2008")+theme_bw()+theme(plot.title = element_text(hjust = 0.5))+ scale_fill_discrete(name = "City", labels = c("Los Angeles County", "Baltimore", "C"))
+dev.off()
